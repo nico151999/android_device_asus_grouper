@@ -125,6 +125,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Snap
 
+PRODUCT_PACKAGES += \
+    PerformanceControl
+
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
