@@ -123,9 +123,6 @@ PRODUCT_PACKAGES += \
     keystore.grouper
 
 PRODUCT_PACKAGES += \
-    Snap
-
-PRODUCT_PACKAGES += \
     PerformanceControl
 
 # NFC packages
@@ -145,6 +142,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ebtables \
     ethertypes
+
+# Reduce ROM size
+LOCAL_OVERRIDES_PACKAGES := Browser
+LOCAL_OVERRIDES_PACKAGES := Gello
+LOCAL_OVERRIDES_PACKAGES := Camera2
+LOCAL_OVERRIDES_PACKAGES := Gallery2
+LOCAL_OVERRIDES_PACKAGES := Eleven
+LOCAL_OVERRIDES_PACKAGES := Email
+LOCAL_OVERRIDES_PACKAGES := Exchange
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 
