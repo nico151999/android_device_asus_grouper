@@ -54,3 +54,6 @@ ro.debuggable=1
 persist.service.adb.enable=1
 persist.sys.usb.config=mtp,adb
 
+# Google Assistant
+ro.opa.eligible_device=true
+
