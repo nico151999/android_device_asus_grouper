@@ -57,3 +57,8 @@ persist.sys.usb.config=mtp,adb
 # Google Assistant
 ro.opa.eligible_device=true
 
+# Hardware Infos
+ro.device.chipset=Tegra 3
+ro.device.gpu=ULP GeForce
+ro.device.front_cam=1,2 MP
+ro.device.screen_res=800x1280
