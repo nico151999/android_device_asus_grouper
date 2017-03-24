@@ -14,18 +14,9 @@
 # limitations under the License.
 #
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-  LOCAL_KERNEL := kernel/tegra/arch/arm/boot/zImage
-else
-  LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-# Use Lineage SU
-USE_SU := true
-
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
-PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := hdpi
+PRODUCT_AAPT_CONFIG := normal large
+PRODUCT_AAPT_PREF_CONFIG := tvdpi
 
 # A list of dpis to select prebuilt apk, in precedence order.
 PRODUCT_AAPT_PREBUILT_DPI := hdpi
@@ -55,10 +46,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.hwui.render_dirty_regions=false
 
-# Enable USB OTG support
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.isUsbOtgEnabled=true
-
 include frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk
 
 PRODUCT_COPY_FILES += \
@@ -66,8 +53,12 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/init.grouper.usb.rc:root/init.grouper.usb.rc \
     device/asus/grouper/gps.conf:system/etc/gps.conf \
     device/asus/grouper/gps/gps.xml:system/etc/gps.xml \
-    device/asus/grouper/touch_fw_update.sh:system/bin/touch_fw_update.sh
+    device/asus/grouper/touch_fw_update.sh:system/bin/touch_fw_update.sh \
+    device/asus/grouper/sensors-load-calibration.sh:system/bin/sensors-load-calibration.sh \
     device/asus/grouper/set_hwui_params.sh:system/bin/set_hwui_params.sh
+
+PRODUCT_PACKAGES += \
+    libstlport
 
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
 PRODUCT_COPY_FILES += \
@@ -87,7 +78,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
     frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
 
@@ -95,8 +85,7 @@ PRODUCT_COPY_FILES += \
     device/asus/grouper/elan-touchscreen.idc:system/usr/idc/elan-touchscreen.idc \
     device/asus/grouper/raydium_ts.idc:system/usr/idc/raydium_ts.idc \
     device/asus/grouper/sensor00fn11.idc:system/usr/idc/sensor00fn11.idc \
-    device/asus/grouper/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    prebuilts/ndk/current/sources/cxx-stl/stlport/libs/armeabi/libstlport_shared.so:system/lib/libstlport.so
+    device/asus/grouper/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
 
 PRODUCT_PACKAGES += \
     libgpsd-compat \
@@ -108,8 +97,11 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+#help GL work in M
 PRODUCT_PACKAGES += \
-    sensors-config \
+    libdgv1
+
+PRODUCT_PACKAGES += \
     libhealthd.tegra3 \
     lights.grouper \
     audio.primary.grouper \
@@ -127,17 +119,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     keystore.grouper
 
-PRODUCT_PACKAGES += \
-    Snap
-
-PRODUCT_PACKAGES += \
-    PerformanceControl
-
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
     libpn544_fw \
-    Nfc \
+    NfcNxp \
     Tag
 
 # Filesystem management tools
@@ -151,8 +137,6 @@ PRODUCT_PACKAGES += \
     ebtables \
     ethertypes
 
-PRODUCT_CHARACTERISTICS := tablet,nosdcard
-
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
@@ -165,9 +149,7 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
-    device/asus/grouper/media_codecs.xml:system/etc/media_codecs.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
-
+    device/asus/grouper/media_codecs.xml:system/etc/media_codecs.xml
 
 # audio mixer paths
 PRODUCT_COPY_FILES += \
@@ -193,6 +175,8 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 WIFI_BAND := 802_11_BG
+PRODUCT_DEFAULT_WIFI_CHANNELS := 13
+
  $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
 # inherit from the non-open-source side
@@ -201,4 +185,5 @@ $(call inherit-product, vendor/broadcom/grouper/broadcom-vendor.mk)
 $(call inherit-product, vendor/elan/grouper/elan-vendor.mk)
 $(call inherit-product, vendor/invensense/grouper/invensense-vendor.mk)
 $(call inherit-product, vendor/nvidia/grouper/nvidia-vendor.mk)
-$(call inherit-product-if-exists, vendor/widevine/grouper/widevine-vendor.mk)
+$(call inherit-product-if-exists, vendor/widevine/arm-generic/widevine-vendor.mk)
+
