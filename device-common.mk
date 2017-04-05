@@ -130,9 +130,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     PerformanceControl
 
-PRODUCT_PACKAGES += \
-    SWE
-
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
