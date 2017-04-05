@@ -130,6 +130,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     PerformanceControl
 
+PRODUCT_PACKAGES += \
+    SWE
+
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc.grouper \
@@ -174,11 +177,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
-
-# put SU back for now
-ifneq ($(TARGET_BUILD_VARIANT),user)
-    WITH_SU := true
-endif
 
 # NFCEE access control
 ifeq ($(TARGET_BUILD_VARIANT),user)
