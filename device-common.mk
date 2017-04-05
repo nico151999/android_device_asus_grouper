@@ -20,6 +20,9 @@ else
   LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
+# Use Lineage SU
+USE_SU := true
+
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := hdpi
