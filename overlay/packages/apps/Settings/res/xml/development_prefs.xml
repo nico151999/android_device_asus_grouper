@@ -19,8 +19,8 @@
         android:title="@string/development_settings_title">
 
     <PreferenceScreen
-            android:key="kernel_adiutor"
-            android:title="Kernel Adiutor">
+            android:key="performance_control"
+            android:title="Performance Control">
 
         <intent
                 android:action="android.intent.action.MAIN"
