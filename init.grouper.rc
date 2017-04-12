@@ -266,8 +266,6 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/max_boost
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/max_boost
     chown system system /sys/devices/system/cpu/cpufreq/interactive/sustain_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_core_keep
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_core_keep
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/sustain_load
     chown system system /sys/devices/system/cpu/cpufreq/interactive/min_core_keep
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_core_keep
